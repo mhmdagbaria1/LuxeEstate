@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeEstate | הדירות והפניות שלי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="top-bar">
+    <a href="Main.html" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span>LuxeEstate</span>
+    </a>
+
+    <div class="welcome" id="welcomeText">
+      <span class="welcome-user-badge">אזור אישי VIP</span>
+    </div>
+
+    <div class="top-left">
+      <button class="nav-btn login-btn-outline" onclick="goToEdit()">עריכת פרופיל</button>
+      <a href="Main.html" class="nav-btn login-btn-outline">חזרה לקטלוג</a>
+      <button class="nav-btn logout-btn" onclick="logout()">יציאה</button>
+      <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+    </div>
+  </header>
+
+  <div class="center-screen-layout" style="align-items: flex-start;">
+    <div class="glass-form-container large" style="max-width: 1050px; padding: 48px;">
+
+      <h2>🏠 הדירות והסיורים שהזמנתי</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 36px; font-size: 1.05rem;">ניהול כל הפניות,
+        הסיורים השמורים והדירות המועדפות בחשבונך</p>
+
+      <div class="houses-grid" id="apartmentsList">
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      themeToggleBtn.innerText = nextTheme === "light" ? "☀️" : "🌙";
+    });
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfbIOTvjCb5XLvo9D-FvtoqAPKVMOdVGY",
+      authDomain: "apartment-rental-5136c.firebaseapp.com",
+      projectId: "apartment-rental-5136c",
+      storageBucket: "apartment-rental-5136c.firebasestorage.app",
+      messagingSenderId: "779553223641",
+      appId: "1:779553223641:web:416a43ccfc689a21c15fc8"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    const email = localStorage.getItem("userEmail") || "vip@luxeestate.co.il";
+    const firstName = localStorage.getItem("firstName") || "משתמש";
+    const lastName = localStorage.getItem("lastName") || "VIP";
+
+    document.getElementById("welcomeText").innerHTML = `
+      <span class="welcome-user-badge">שלום ${firstName} ${lastName}</span>
+    `;
+
+    db.collection("contactUs")
+      .where("email", "==", email)
+      .get()
+      .then(snapshot => {
+        const list = document.getElementById("apartmentsList");
+
+        if (snapshot.empty) {
+          list.innerHTML = `
+            <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 60px;">
+              <h3>אין פניות או סיורים שמורים בחשבונך</h3>
+              <p>כשתזמין סיור בדירות יוקרה, הפניות שלך יופיעו כאן</p>
+            </div>`;
+          return;
+        }
+
+        const houseTitlesMap = {
+          "demo-1": "פנטהאוז יוקרתי מול הים",
+          "demo-2": "דירת גן מעוצבת ברמת אביב",
+          "demo-3": "אחוזה יוקרתית עם בריכה פרטית"
+        };
+
+        list.innerHTML = "";
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          let orderDate = d.date ? d.date.toDate().toLocaleString("he-IL") : "לאחרונה";
+
+          let rawMsgs = [];
+          if (Array.isArray(d.messages) && d.messages.length > 0) {
+            rawMsgs = d.messages;
+          } else if (d.message) {
+            rawMsgs = String(d.message).split(/\n+/).filter(m => m.trim().length > 0);
+          } else {
+            rawMsgs = ["בקשה לתיאום סיור"];
+          }
+
+          let currentStatus = d.status || "פנייה נשלחה";
+          let isClosed = (currentStatus === "נסגרה" || currentStatus === "טופל" || currentStatus === "סגור");
+          let statusBadgeStyle = "";
+          let statusIcon = "✉️";
+
+          if (currentStatus === "בטיפול") {
+            statusBadgeStyle = "background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);";
+            statusIcon = "⚙️";
+          } else if (isClosed) {
+            statusBadgeStyle = "background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);";
+            statusIcon = "🔒";
+          } else {
+            statusBadgeStyle = "background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);";
+          }
+
+          let title = d.houseTitle || houseTitlesMap[d.houseID] || "פנייה לתיאום דירת יוקרה";
+
+          list.innerHTML += `
+            <div class="modern-card" style="opacity:1; ${isClosed ? 'border: 1px solid rgba(239, 68, 68, 0.4);' : ''}">
+              <div class="card-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+                  <h3 class="card-title" style="margin:0;">${title}</h3>
+                  <span style="font-size:0.8rem; font-weight:700; padding:4px 12px; border-radius:20px; ${statusBadgeStyle}">${statusIcon} ${isClosed ? 'פנייה נסגרה' : currentStatus}</span>
+                </div>
+                
+                <div class="messages-list" style="display:flex; flex-direction:column; gap:8px; margin: 14px 0;">
+                  ${rawMsgs.map((msg, idx) => {
+                    const isAdmin = msg.includes("תגובת מנהל") || msg.includes("מנהל:");
+                    const bubbleStyle = isAdmin 
+                      ? "background: rgba(37, 212, 216, 0.15); padding: 10px 14px; border-radius: 10px; border-right: 4px solid #25d4d8; color: #ffffff; font-size: 0.95rem; line-height: 1.4; display:flex; justify-content:space-between; align-items:center; gap:10px;"
+                      : "background: rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 10px; border-right: 3px solid var(--primary); color: var(--text-main); font-size: 0.95rem; line-height: 1.4; display:flex; justify-content:space-between; align-items:center; gap:10px;";
+                    
+                    return `
+                      <div class="message-bubble" style="${bubbleStyle}">
+                        <div style="flex:1;">
+                          <div class="msg-num-label" style="font-size: 0.75rem; color: ${isAdmin ? '#25d4d8' : 'var(--text-muted)'}; margin-bottom: 2px;">
+                            ${isAdmin ? '🛡️ תגובת מנהל:' : `הודעה ${idx + 1}:`}
+                          </div>
+                          <div class="msg-text-content">${msg}</div>
+                        </div>
+                        <button type="button" onclick="deleteSingleMessage('${doc.id}', this)" title="מחיקת הודעה זו" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: none; border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s ease;">
+                          <span>✕</span>
+                        </button>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+
+                <p style="font-size:0.82rem; color:var(--primary); margin-bottom:14px;">תאריך: ${orderDate}</p>
+
+                <div class="add-msg-box" style="display:flex; gap:8px; margin-bottom:16px;">
+                  <input type="text" class="new-msg-input modern-input" 
+                    placeholder="${isClosed ? '🔒 פנייה זו נסגרה - לא ניתן להוסיף הודעות נוספות' : 'הוסף הודעה נוספת לפנייה זו...'}" 
+                    ${isClosed ? 'disabled style="padding:10px 14px; font-size:0.9rem; flex:1; opacity:0.6; cursor:not-allowed; background:rgba(0,0,0,0.3);"' : 'style="padding:10px 14px; font-size:0.9rem; flex:1;"'}>
+                  <button type="button" class="nav-btn login-btn-outline" onclick="addInlineMessage('${doc.id}', this)" 
+                    ${isClosed ? 'disabled style="padding:10px 16px; font-size:0.85rem; border-radius:10px; font-weight:700; opacity:0.5; cursor:not-allowed; border-color:#ef4444; color:#ef4444;"' : 'style="padding:10px 16px; font-size:0.85rem; border-radius:10px; font-weight:700;"'}>
+                    ${isClosed ? 'סגור 🔒' : 'שלח'}
+                  </button>
+                </div>
+
+                <div class="card-actions" style="display:flex; gap:10px;">
+                  ${isClosed ? `
+                    <button type="button" class="view-details-btn" disabled style="flex:1; opacity:0.5; cursor:not-allowed; pointer-events:none; background:rgba(255,255,255,0.08); color:var(--text-muted); border:1px solid rgba(255,255,255,0.1);" title="הפנייה נסגרה - לא ניתן לצפות בפרטי הנכס">🔒 פרטי נכס ננעלו (פנייה סגורה)</button>
+                  ` : `
+                    <a href="houseDetail.html?houseID=${d.houseID || 'demo-1'}" class="view-details-btn" style="flex:1;">צפה בפרטי הנכס</a>
+                  `}
+                  <button type="button" class="delete-card-btn" onclick="deleteOrder('${doc.id}', this)" title="מחיקת פנייה">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>מחיקה</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      })
+      .catch(err => {
+        console.warn("No orders or error fetching:", err);
+        const list = document.getElementById("apartmentsList");
+        if (list) {
+          list.innerHTML = `
+            <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 60px;">
+              <h3>אין פניות או סיורים שמורים בחשבונך</h3>
+              <p>כשתזמין סיור בדירות יוקרה, הפניות שלך יופיעו כאן</p>
+            </div>`;
+        }
+      });
+
+    async function addInlineMessage(docId, btnElement) {
+      const card = btnElement.closest(".modern-card");
+      const inputEl = card ? card.querySelector(".new-msg-input") : null;
+      const newMsg = inputEl ? inputEl.value.trim() : "";
+
+      if (!newMsg) {
+        alert("אנא הזן תוכן להודעה הנוספת");
+        return;
+      }
+
+      btnElement.disabled = true;
+      const origText = btnElement.innerText;
+      btnElement.innerText = "שולח...";
+
+      try {
+        if (docId && !docId.startsWith("demo-")) {
+          const docRef = db.collection("contactUs").doc(docId);
+          const docSnap = await docRef.get();
+          if (docSnap.exists) {
+            const currentData = docSnap.data();
+            if (currentData.status === "נסגרה" || currentData.status === "טופל" || currentData.status === "סגור") {
+              alert("פנייה זו נסגרה. לא ניתן להוסיף הודעות נוספות.");
+              return;
+            }
+            const oldMsg = currentData.message || "";
+            const updatedMsg = oldMsg ? (oldMsg + "\n" + newMsg) : newMsg;
+
+            await docRef.update({
+              message: updatedMsg,
+              messages: firebase.firestore.FieldValue.arrayUnion(newMsg),
+              date: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        }
+
+        const msgContainer = card ? card.querySelector(".messages-list") : null;
+        if (msgContainer) {
+          const count = msgContainer.children.length;
+          const newBubble = document.createElement("div");
+          newBubble.className = "message-bubble";
+          newBubble.style.cssText = "background: rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 10px; border-right: 3px solid var(--primary); color: var(--text-main); font-size: 0.95rem; line-height: 1.4; display:flex; justify-content:space-between; align-items:center; gap:10px;";
+          newBubble.innerHTML = `
+            <div style="flex:1;">
+              <div class="msg-num-label" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px;">הודעה ${count + 1}:</div>
+              <div class="msg-text-content">${newMsg}</div>
+            </div>
+            <button type="button" onclick="deleteSingleMessage('${docId}', this)" title="מחיקת הודעה זו" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: none; border-radius: 6px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s ease;">
+              <span>✕</span>
+            </button>
+          `;
+          msgContainer.appendChild(newBubble);
+        }
+        if (inputEl) inputEl.value = "";
+      } catch (err) {
+        console.error("Error adding inline message:", err);
+      } finally {
+        btnElement.disabled = false;
+        btnElement.innerText = origText;
+      }
+    }
+
+    async function deleteSingleMessage(docId, btnElement) {
+      if (!confirm("האם למחוק הודעה זו?")) return;
+
+      const bubble = btnElement.closest(".message-bubble");
+      const card = btnElement.closest(".modern-card");
+      const msgContainer = card ? card.querySelector(".messages-list") : null;
+
+      let msgIndex = -1;
+      if (msgContainer && bubble) {
+        const allBubbles = Array.from(msgContainer.querySelectorAll(".message-bubble"));
+        msgIndex = allBubbles.indexOf(bubble);
+      }
+
+      if (docId && !docId.startsWith("demo-") && msgIndex >= 0) {
+        try {
+          const docRef = db.collection("contactUs").doc(docId);
+          const docSnap = await docRef.get();
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            let msgs = [];
+            if (Array.isArray(data.messages) && data.messages.length > 0) {
+              msgs = [...data.messages];
+            } else if (data.message) {
+              msgs = String(data.message).split(/\n+/).filter(m => m.trim().length > 0);
+            }
+
+            if (msgIndex >= 0 && msgIndex < msgs.length) {
+              msgs.splice(msgIndex, 1);
+            }
+
+            await docRef.update({
+              message: msgs.join("\n"),
+              messages: msgs,
+              date: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        } catch (err) {
+          console.error("Error deleting single message:", err);
+        }
+      }
+
+      if (bubble) {
+        bubble.style.transition = "all 0.25s ease";
+        bubble.style.opacity = "0";
+        bubble.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          bubble.remove();
+          if (msgContainer) {
+            const bubbles = msgContainer.querySelectorAll(".message-bubble");
+            bubbles.forEach((b, i) => {
+              const label = b.querySelector(".msg-num-label");
+              if (label) label.textContent = `הודעה ${i + 1}:`;
+            });
+          }
+        }, 250);
+      }
+    }
+
+    async function deleteOrder(docId, btnElement) {
+      if (!confirm("האם אתה בטוח שברצונך למחוק פנייה זו?")) return;
+
+      const card = btnElement.closest(".modern-card");
+
+      if (docId && !docId.startsWith("demo-")) {
+        try {
+          await db.collection("contactUs").doc(docId).delete();
+        } catch (err) {
+          console.error("Error deleting order:", err);
+        }
+      }
+
+      if (card) {
+        card.style.transition = "all 0.3s ease";
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          card.remove();
+          const list = document.getElementById("apartmentsList");
+          if (list && list.children.length === 0) {
+            list.innerHTML = `
+              <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                <h3>אין פניות או סיורים שמורים בחשבונך</h3>
+                <p>כשתזמין סיור בדירות יוקרה, הפניות שלך יופיעו כאן</p>
+              </div>`;
+          }
+        }, 300);
+      }
+    }
+
+    function goToEdit() {
+      window.location.href = "edituser.html";
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "Main.html";
+    }
+  </script>
+
+</body>
+
+</html>

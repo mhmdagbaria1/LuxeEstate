@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeEstate | השכרת דירות יוקרה</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header class="top-bar">
+    <a href="Main.html" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span>LuxeEstate</span>
+    </a>
+
+    <div class="welcome" id="welcomeText">
+      <span class="welcome-user-badge">ברוכים הבאים</span>
+    </div>
+
+    <div class="top-left" id="topButtons">
+      <a href="signin1.html" class="nav-btn login-btn-outline">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10 17 15 12 10 7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+        כניסה לחשבון
+      </a>
+      <a href="siginup.html" class="nav-btn signup-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        להרשמה באתר
+      </a>
+      <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+    </div>
+  </header>
+
+  <div class="page-content">
+
+
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+            </polygon>
+          </svg>
+          פלטפורמת דירות היוקרה המובילה
+        </div>
+        <h1>החלום שלך מתחיל כאן</h1>
+        <p>גלה את דירות היוקרה והפנטהאוזים הנחשקים ביותר בישראל בהתאמה אישית מושלמת</p>
+
+
+        <div class="search-glass-card">
+          <div class="search-inputs">
+            <select id="roomsSelect" class="modern-select">
+              <option value="" selected>מספר חדרים (הכל)</option>
+              <option value="1">1 חדרים</option>
+              <option value="2">2 חדרים</option>
+              <option value="3">3 חדרים</option>
+              <option value="4">4 חדרים</option>
+              <option value="5">5 חדרים</option>
+              <option value="6">6+ חדרים</option>
+            </select>
+            <select id="locationSelect" class="modern-select">
+              <option value="" selected>עיר/אזור (הכל)</option>
+            </select>
+            <select id="priceSelect" class="modern-select">
+              <option value="" selected>תקציב מרבי (הכל)</option>
+            </select>
+            <button type="button" id="searchBtn" class="search-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              חפש נכסים
+            </button>
+          </div>
+        </div>
+
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">20+</span>
+            <span class="stat-label">דירות יוקרה זמינות</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">99.4%</span>
+            <span class="stat-label">שביעות רצון לקוחות</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">שירות VIP וליווי אישי</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls-bar">
+      <div class="section-heading-box">
+        <h2 class="section-title">הנכסים המובילים ביותר</h2>
+        <p class="section-subtitle">גלה את הדירות המומלצות והיוקרתיות ביותר שעלו לאחרונה</p>
+      </div>
+
+      <div class="view-toggle-group">
+        <button class="toggle-btn active" id="gridViewBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          תצוגת רשת
+        </button>
+        <button class="toggle-btn" id="mapViewBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="1 6 1 22 8 18 15 22 22 18 22 2 15 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="15" y1="6" x2="15" y2="22"></line>
+          </svg>
+          תצוגת מפה
+        </button>
+      </div>
+    </div>
+
+    <div class="houses-container">
+      <div class="houses-grid" id="housesGrid"></div>
+
+      <div class="map-view-container" id="mapViewContainer">
+        <div class="mock-map-canvas" id="mapCanvas"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" id="quickModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModalBtn">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfbIOTvjCb5XLvo9D-FvtoqAPKVMOdVGY",
+      authDomain: "apartment-rental-5136c.firebaseapp.com",
+      projectId: "apartment-rental-5136c",
+      storageBucket: "apartment-rental-5136c.firebasestorage.app",
+      messagingSenderId: "779553223641",
+      appId: "1:779553223641:web:416a43ccfc689a21c15fc8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const housesGrid = document.getElementById("housesGrid");
+    const mapViewContainer = document.getElementById("mapViewContainer");
+    const mapCanvas = document.getElementById("mapCanvas");
+    const gridViewBtn = document.getElementById("gridViewBtn");
+    const mapViewBtn = document.getElementById("mapViewBtn");
+
+    let allHouses = [];
+
+
+    const defaultLuxuryHouses = [
+      {
+        houseID: "demo-1",
+        houseName: "פנטהאוז יוקרתי מול הים",
+        location: "תל אביב",
+        price: 18500,
+        rooms: "5",
+        image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+        badge: "⭐ מומלץ VIP",
+        coords: { top: "35%", left: "45%" }
+      },
+      {
+        houseID: "demo-2",
+        houseName: "דירת גן מעוצבת ברמת אביב",
+        location: "תל אביב",
+        price: 12000,
+        rooms: "4",
+        image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+        badge: "🔥 מבוקש מאוד",
+        coords: { top: "50%", left: "55%" }
+      },
+      {
+        houseID: "demo-3",
+        houseName: "אחוזה יוקרתית עם בריכה פרטית",
+        location: "הרצליה פיתוח",
+        price: 32000,
+        rooms: "6",
+        image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+        badge: "✨ חדש בשוק",
+        coords: { top: "25%", left: "30%" }
+      },
+      {
+        houseID: "demo-4",
+        houseName: "דופלקס מרהיב במגדלי היוקרה",
+        location: "ירושלים",
+        price: 15500,
+        rooms: "4",
+        image_url: "https://images.unsplash.com/photo-1567496898669-ee935f5f647a?auto=format&fit=crop&w=800&q=80",
+        badge: "⭐ מומלץ VIP",
+        coords: { top: "65%", left: "70%" }
+      },
+      {
+        houseID: "demo-5",
+        houseName: "דירת בוטיק מעוצבת במרכז",
+        location: "רמת גן",
+        price: 9800,
+        rooms: "3",
+        image_url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80",
+        badge: "✨ חדש בשוק",
+        coords: { top: "45%", left: "35%" }
+      },
+      {
+        houseID: "demo-6",
+        houseName: "ווילה מודרנית עם נוף פנורמי",
+        location: "קיסריה",
+        price: 26000,
+        rooms: "6",
+        image_url: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80",
+        badge: "🔥 מבוקש מאוד",
+        coords: { top: "20%", left: "60%" }
+      }
+    ];
+
+    async function loadHouses() {
+      try {
+        const snapshot = await getDocs(collection(db, "houses"));
+        allHouses = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          data.houseID = doc.id;
+          allHouses.push(data);
+        });
+
+        if (allHouses.length === 0) {
+          allHouses = defaultLuxuryHouses;
+        }
+      } catch (err) {
+        console.warn("Using luxury default houses fallback:", err);
+        allHouses = defaultLuxuryHouses;
+      }
+
+      populateFilters(allHouses);
+      renderHouses(allHouses);
+      renderMapPins(allHouses);
+    }
+
+    function populateFilters(houses) {
+      const locations = new Set();
+      const prices = new Set();
+
+      houses.forEach(h => {
+        if (h.location) locations.add(h.location);
+        if (h.price) prices.add(Number(h.price));
+      });
+
+      const locationSelect = document.getElementById("locationSelect");
+      if (locationSelect) {
+        locationSelect.innerHTML = `<option value="" selected>עיר/אזור (הכל)</option>`;
+        Array.from(locations).sort().forEach(loc => {
+          const opt = document.createElement("option");
+          opt.value = loc;
+          opt.innerText = loc;
+          locationSelect.appendChild(opt);
+        });
+      }
+
+      const priceSelect = document.getElementById("priceSelect");
+      if (priceSelect) {
+        priceSelect.innerHTML = `<option value="" selected>תקציב מרבי (הכל)</option>`;
+        Array.from(prices).sort((a, b) => a - b).forEach(pr => {
+          const opt = document.createElement("option");
+          opt.value = pr;
+          opt.innerText = `עד ₪${pr.toLocaleString()}`;
+          priceSelect.appendChild(opt);
+        });
+      }
+    }
+
+    function renderHouses(housesArray) {
+      housesGrid.innerHTML = "";
+      if (housesArray.length === 0) {
+        housesGrid.innerHTML = `
+          <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 60px;">
+            <h3>לא נמצאו דירות התואמות את החיפוש שלך</h3>
+            <p>נסה לשנות את מסנני החיפוש או לאפס אותם</p>
+          </div>`;
+        return;
+      }
+
+      housesArray.forEach((h, index) => {
+        const card = document.createElement("div");
+        card.className = "modern-card";
+        card.style.animationDelay = `${(index % 6) * 0.1}s`;
+
+        const badgeText = h.badge || (index % 2 === 0 ? "⭐ מומלץ VIP" : "✨ חדש בשוק");
+
+        card.innerHTML = `
+          <div class="card-badge-row">
+            <span class="card-status-badge">${badgeText}</span>
+            <span class="card-price-badge">₪${Number(h.price || 0).toLocaleString()}</span>
+          </div>
+
+          <a href="houseDetail.html?houseID=${h.houseID}" class="card-image-link">
+            <img src="${h.image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'}" alt="${h.houseName || 'דירת יוקרה'}">
+          </a>
+
+          <div class="card-content">
+            <h3 class="card-title">${h.houseName || "דירת יוקרה מעוצבת"}</h3>
+            
+            <div class="card-details">
+              <div class="card-detail-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>${h.location || "תל אביב"}</span>
+              </div>
+            </div>
+
+            <div class="card-actions">
+              <a href="houseDetail.html?houseID=${h.houseID}" class="view-details-btn">
+                <span>לפרטים המלאים</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </a>
+              <button class="quick-view-btn" data-id="${h.houseID}" title="צפייה מהירה">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+          </div>
+        `;
+        housesGrid.appendChild(card);
+      });
+
+
+      document.querySelectorAll(".quick-view-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const id = btn.getAttribute("data-id");
+          const found = allHouses.find(item => item.houseID === id);
+          if (found) openQuickModal(found);
+        });
+      });
+    }
+
+    function renderMapPins(housesArray) {
+      mapCanvas.innerHTML = "";
+      housesArray.forEach((h, i) => {
+        const pin = document.createElement("div");
+        pin.className = "map-pin";
+        const topPos = h.coords ? h.coords.top : `${20 + (i * 12) % 65}%`;
+        const leftPos = h.coords ? h.coords.left : `${15 + (i * 15) % 75}%`;
+        pin.style.top = topPos;
+        pin.style.left = leftPos;
+        pin.innerHTML = `₪${Number(h.price || 0).toLocaleString()}`;
+        pin.addEventListener("click", () => openQuickModal(h));
+        mapCanvas.appendChild(pin);
+      });
+    }
+
+    function openQuickModal(house) {
+      const modalBody = document.getElementById("modalBody");
+      const roomsCount = parseRooms(house);
+      modalBody.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <img src="${house.image_url}" style="width:100%; height:260px; object-fit:cover; border-radius:16px;" alt="">
+          <div>
+            <span style="color:var(--primary); font-weight:700;">${house.badge || '⭐ מומלץ VIP'}</span>
+            <h2 style="margin:8px 0 16px 0;">${house.houseName}</h2>
+            <p style="font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:16px;">₪${Number(house.price).toLocaleString()} / לחודש</p>
+            <p style="color:var(--text-muted); margin-bottom:20px;">📍 מיקום: ${house.location}${Number.isNaN(roomsCount) ? "" : ` | 🚪 ${roomsCount} חדרים מרווחים`}</p>
+            <div style="display:flex; gap:12px;">
+              <a href="houseDetail.html?houseID=${house.houseID}" class="glass-btn" style="text-align:center; text-decoration:none;">לפרטים מלאים והזמנה</a>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById("quickModal").classList.add("active");
+    }
+
+    document.getElementById("closeModalBtn").addEventListener("click", () => {
+      document.getElementById("quickModal").classList.remove("active");
+    });
+
+    const HEBREW_ROOM_WORDS = {
+      "אחד": 1, "אחת": 1, "שני": 2, "שתי": 2, "שניים": 2, "שתיים": 2,
+      "שלושה": 3, "שלוש": 3, "ארבעה": 4, "ארבע": 4,
+      "חמישה": 5, "חמש": 5, "שישה": 6, "שש": 6, "שבעה": 7, "שבע": 7
+    };
+
+    function toRoomNumber(value) {
+      if (typeof value === "number") return value;
+      if (typeof value !== "string") return NaN;
+      const match = value.replace(",", ".").match(/\d+(\.\d+)?/);
+      return match ? Number(match[0]) : NaN;
+    }
+
+    function roomsFromTitle(title) {
+      if (typeof title !== "string") return NaN;
+
+      const numeric = title.match(/(\d+(?:\.\d+)?)\s*חדר/);
+      if (numeric) return Number(numeric[1]);
+
+      const after = title.match(/חדר(?:ים)?\s+(\S+)/);
+      if (after && HEBREW_ROOM_WORDS[after[1]] !== undefined) return HEBREW_ROOM_WORDS[after[1]];
+
+      const before = title.match(/(\S+)\s+חדר/);
+      if (before && HEBREW_ROOM_WORDS[before[1]] !== undefined) return HEBREW_ROOM_WORDS[before[1]];
+
+      if (/חדר(?!ים)/.test(title)) return 1;
+      return NaN;
+    }
+
+    function parseRooms(house) {
+      const fromField = toRoomNumber(house.rooms);
+      return Number.isNaN(fromField) ? roomsFromTitle(house.houseName) : fromField;
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const roomsVal = document.getElementById("roomsSelect").value;
+      const locationVal = document.getElementById("locationSelect").value;
+      const priceVal = document.getElementById("priceSelect").value;
+
+      let filtered = allHouses.filter(h => {
+        let matchRooms = true;
+        let matchLocation = true;
+        let matchPrice = true;
+
+        if (roomsVal) {
+          const rooms = parseRooms(h);
+          if (Number.isNaN(rooms)) matchRooms = false;
+          else if (roomsVal === "6") matchRooms = rooms >= 6;
+          else matchRooms = rooms === Number(roomsVal);
+        }
+        if (locationVal) matchLocation = h.location === locationVal;
+        if (priceVal) matchPrice = Number(h.price) <= Number(priceVal);
+
+        return matchRooms && matchLocation && matchPrice;
+      });
+
+      renderHouses(filtered);
+      renderMapPins(filtered);
+    });
+
+
+    gridViewBtn.addEventListener("click", () => {
+      gridViewBtn.classList.add("active");
+      mapViewBtn.classList.remove("active");
+      housesGrid.style.display = "grid";
+      mapViewContainer.classList.remove("active");
+    });
+
+    mapViewBtn.addEventListener("click", () => {
+      mapViewBtn.classList.add("active");
+      gridViewBtn.classList.remove("active");
+      housesGrid.style.display = "none";
+      mapViewContainer.classList.add("active");
+    });
+
+
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      themeToggleBtn.innerText = nextTheme === "light" ? "☀️" : "🌙";
+    });
+
+
+    window.onload = function () {
+      const firstName = localStorage.getItem("firstName");
+      const lastName = localStorage.getItem("lastName");
+
+      if (firstName && lastName) {
+        document.getElementById("welcomeText").innerHTML = `
+          <span class="welcome-user-badge">שלום ${firstName} ${lastName}</span>
+        `;
+
+        document.getElementById("topButtons").innerHTML = `
+          <button class="nav-btn login-btn-outline" onclick="location.href='edituser.html'">עריכת פרופיל</button>
+          <button class="nav-btn login-btn-outline" onclick="location.href='orderapartment.html'">הדירות שהזמנתי</button>
+          <button class="nav-btn logout-btn" onclick="logout()">יציאה</button>
+          <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+        `;
+
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          const currentTheme = document.documentElement.getAttribute("data-theme");
+          const nextTheme = currentTheme === "light" ? "dark" : "light";
+          document.documentElement.setAttribute("data-theme", nextTheme);
+          document.getElementById("themeToggle").innerText = nextTheme === "light" ? "☀️" : "🌙";
+        });
+      }
+    };
+    window.logout = function () {
+      localStorage.removeItem("firstName");
+      localStorage.removeItem("lastName");
+      localStorage.removeItem("userEmail");
+      window.location.href = "Main.html";
+    };
+    loadHouses();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeEstate | פרטי נכס יוקרתי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .house-detail-container {
+      max-width: 1000px;
+      margin: 110px auto 60px;
+      padding: 0 24px;
+    }
+
+    .detail-hero-box {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-dark);
+      border: 1px solid var(--border-glow);
+      max-height: 480px;
+    }
+
+    .detail-hero-box img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-price-badge-floating {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: rgba(8, 13, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--primary);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: var(--radius-full);
+      font-size: 1.6rem;
+      font-weight: 900;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .detail-info-card {
+      background: var(--bg-surface);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      margin-top: -40px;
+      position: relative;
+      z-index: 10;
+      box-shadow: var(--shadow-dark);
+    }
+
+    .detail-title {
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 0 0 12px 0;
+      color: var(--text-main);
+    }
+
+    .detail-meta-row {
+      display: flex;
+      gap: 20px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .detail-item {
+      background: rgba(8, 13, 26, 0.6);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+
+    .detail-item strong {
+      display: block;
+      color: var(--primary);
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-item span {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 36px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .features-list li {
+      background: rgba(0, 242, 254, 0.08);
+      border: 1px solid var(--border-glow);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-btn-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="top-bar">
+    <a href="Main.html" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span>LuxeEstate</span>
+    </a>
+
+    <div class="welcome" id="welcomeText">
+      <span class="welcome-user-badge">פרטי נכס יוקרתי</span>
+    </div>
+
+    <div class="top-left" id="topButtons">
+      <a href="signin1.html" class="nav-btn login-btn-outline">התחברות</a>
+      <a href="siginup.html" class="nav-btn signup-btn">הרשמה</a>
+      <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+    </div>
+  </header>
+
+  <main class="house-detail-container">
+    <div class="detail-hero-box">
+      <img id="houseImg"
+        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+        alt="תמונת הנכס">
+      <div class="detail-price-badge-floating" id="housePrice">טוען...</div>
+    </div>
+
+    <div class="detail-info-card">
+      <h1 class="detail-title" id="houseTitle">טוען נתונים...</h1>
+      <div class="detail-meta-row" id="houseMeta">
+        <span>📍 תל אביב</span>
+        <span>🚪 5 חדרים</span>
+        <span>⭐ מומלץ VIP</span>
+      </div>
+
+      <div class="detail-grid" id="detailsGrid">
+
+      </div>
+
+      <h3 style="margin-bottom: 16px; color: var(--text-muted); font-size:1.3rem;">✨ מאפיינים ופינוקים:</h3>
+      <ul class="features-list" id="houseFeatures">
+        <li>📶 אינטרנט סיבים מהיר</li>
+        <li>❄️ מיזוג אוויר מרכזי</li>
+        <li>🏊‍♂️ בריכה פרטית</li>
+        <li>🚗 חניה תת קרקעית</li>
+        <li>🌅 מרפסת שמש לים</li>
+      </ul>
+
+      <div class="detail-grid" id="contactGrid">
+
+      </div>
+
+      <div class="action-btn-row">
+        <button id="contactBtn" class="glass-btn" style="flex:2;">צור קשר לתיאום סיור VIP</button>
+        <button class="glass-btn secondary" onclick="window.location.href='Main.html'" style="flex:1;">חזרה
+          לקטלוג</button>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfbIOTvjCb5XLvo9D-FvtoqAPKVMOdVGY",
+      authDomain: "apartment-rental-5136c.firebaseapp.com",
+      projectId: "apartment-rental-5136c",
+      storageBucket: "apartment-rental-5136c.firebasestorage.app",
+      messagingSenderId: "779553223641",
+      appId: "1:779553223641:web:416a43ccfc689a21c15fc8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const houseID = urlParams.get("houseID");
+
+    const fallbackHouses = {
+      "demo-1": {
+        houseName: "פנטהאוז יוקרתי מול הים",
+        location: "תל אביב",
+        Rahov: "הירקון 120",
+        price: 18500,
+        rooms: 5,
+        type: "פנטהאוז",
+        size: "220 מ\"ר",
+        bathrooms: 3,
+        description: "פנטהאוז יוקרתי ומרהיב בקו ראשון לים עם מרפסת שמש פנורמית ענקית, מרוהט אדריכלית ברמה הגבוהה ביותר.",
+        phone: "050-1234567",
+        email: "vip@luxeestate.co.il",
+        image_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+      },
+      "demo-2": {
+        houseName: "דירת גן מעוצבת ברמת אביב",
+        location: "תל אביב",
+        Rahov: "איינשטיין 45",
+        price: 12000,
+        rooms: 4,
+        type: "דירת גן",
+        size: "160 מ\"ר + 100 מ\"ר גינה",
+        bathrooms: 2,
+        description: "דירת גן שקטה וירוקה במיקום הנחשק ביותר ברמת אביב, כוללת גינה מטופחת עם פינת ישיבה ומערכת שמע מובנית.",
+        phone: "052-9876543",
+        email: "gardens@luxeestate.co.il",
+        image_url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
+      },
+      "demo-3": {
+        houseName: "אחוזה יוקרתית עם בריכה פרטית",
+        location: "הרצליה פיתוח",
+        Rahov: "גלי תכלת 12",
+        price: 32000,
+        rooms: 6,
+        type: "ווילה / אחוזה",
+        size: "450 מ\"ר",
+        bathrooms: 5,
+        description: "אחוזת פאר בהרצליה פיתוח עם בריכה מחוממת, חדר כושר פרטי, קולנוע ביתי ומערכת בית חכם מלאה.",
+        phone: "054-5554433",
+        email: "mansion@luxeestate.co.il",
+        image_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+      }
+    };
+
+    if (houseID) {
+      fetchHouseByID(houseID);
+    } else {
+      renderHouseDetails(fallbackHouses["demo-1"]);
+    }
+
+    async function fetchHouseByID(id) {
+      try {
+        const docRef = doc(db, "houses", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          renderHouseDetails(docSnap.data());
+        } else if (fallbackHouses[id]) {
+          renderHouseDetails(fallbackHouses[id]);
+        } else {
+          renderHouseDetails(fallbackHouses["demo-1"]);
+        }
+      } catch (err) {
+        console.warn("Using fallback details:", err);
+        renderHouseDetails(fallbackHouses[id] || fallbackHouses["demo-1"]);
+      }
+    }
+
+    function renderHouseDetails(house) {
+      document.getElementById("houseImg").src = house.image_url || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80";
+      document.getElementById("houseTitle").textContent = house.houseName || "נכס יוקרתי";
+      document.getElementById("housePrice").textContent = `₪${Number(house.price || 0).toLocaleString()} / לחודש`;
+
+      document.getElementById("houseMeta").innerHTML = `
+        <span>📍 ${house.location || 'תל אביב'}</span>
+        <span>🚪 ${house.rooms || 4} חדרים</span>
+        <span>✨ ${house.type || 'דירת יוקרה'}</span>
+      `;
+
+      document.getElementById("detailsGrid").innerHTML = `
+        <div class="detail-item"><strong>עיר/מיקום</strong><span>${house.location || "-"}</span></div>
+        <div class="detail-item"><strong>רחוב</strong><span>${house.Rahov || "-"}</span></div>
+        <div class="detail-item"><strong>סוג נכס</strong><span>${house.type || "דירת יוקרה"}</span></div>
+        <div class="detail-item"><strong>שטח בנוי</strong><span>${house.size || "180 מ\"ר"}</span></div>
+        <div class="detail-item"><strong>חדרי רחצה</strong><span>${house.bathrooms || "2"}</span></div>
+        <div class="detail-item" style="grid-column: 1 / -1;"><strong>תיאור הנכס</strong><span>${house.description || "דירה מרהיבה עם מפרט טכני עשיר, נוף פנורמי ועיצוב פרימיום."}</span></div>
+      `;
+
+      document.getElementById("contactGrid").innerHTML = `
+        <div class="detail-item"><strong>טלפון איש קשר</strong><span>${house.phone || "050-1234567"}</span></div>
+        <div class="detail-item"><strong>דוא"ל איש קשר</strong><span>${house.email || "contact@luxeestate.co.il"}</span></div>
+      `;
+    }
+
+
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      themeToggleBtn.innerText = nextTheme === "light" ? "☀️" : "🌙";
+    });
+
+    const firstName = localStorage.getItem("firstName");
+    const lastName = localStorage.getItem("lastName");
+    if (firstName && lastName) {
+      document.getElementById("welcomeText").innerHTML = `<span class="welcome-user-badge">שלום ${firstName} ${lastName}</span>`;
+      document.getElementById("topButtons").innerHTML = `
+        <button class="nav-btn login-btn-outline" onclick="location.href='edituser.html'">עריכת פרופיל</button>
+        <button class="nav-btn login-btn-outline" onclick="location.href='orderapartment.html'">הדירות שלי</button>
+        <button class="nav-btn logout-btn" onclick="logout()">יציאה</button>
+        <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+      `;
+    }
+
+    window.logout = function () {
+      localStorage.clear();
+      window.location.href = "Main.html";
+    };
+
+    document.getElementById("contactBtn").addEventListener("click", () => {
+      let userEmail = localStorage.getItem("userEmail");
+      if (userEmail) {
+        window.location.href = `contactUs.html?houseID=${houseID || 'demo-1'}`;
+      } else {
+        alert("יש להתחבר לחשבון כדי לתאם סיור");
+        window.location.href = "signin1.html";
+      }
+    });
+  </script>
+
+</body>
+
+</html>

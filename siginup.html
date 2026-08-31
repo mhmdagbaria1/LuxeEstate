@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeEstate | הרשמה לחברות VIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="top-bar">
+    <a href="Main.html" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span>LuxeEstate</span>
+    </a>
+
+    <div class="top-left">
+      <a href="signin1.html" class="nav-btn login-btn-outline">יש לך חשבון? להתחברות</a>
+      <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+    </div>
+  </header>
+
+  <div class="center-screen-layout">
+    <div class="glass-form-container">
+      <h2>הצטרפו למועדון ה-VIP ✨</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 24px;">קבלו גישה ראשונית לנכסים הבלעדיים
+        ביותר וליווי אישי</p>
+
+      <div id="errorAlert"
+        style="display: none; color: #ff4d4d; background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.3); padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 0.95rem; font-weight: 600;">
+      </div>
+
+      <form id="userForm">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="glass-label" for="FirstName">שם פרטי</label>
+            <input type="text" id="FirstName" class="glass-input" placeholder="ישראל" required>
+          </div>
+
+          <div class="form-group">
+            <label class="glass-label" for="LastName">שם משפחה</label>
+            <input type="text" id="LastName" class="glass-input" placeholder="ישראלי" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="glass-label" for="Email">דואר אלקטרוני</label>
+          <input type="email" id="Email" class="glass-input" placeholder="name@domain.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="glass-label" for="password">סיסמה אישית</label>
+          <input type="password" id="password" class="glass-input" placeholder="לפחות 6 תווים" minlength="6" required>
+        </div>
+
+        <div class="form-group">
+          <label class="glass-label" for="PhoneNumber">מספר טלפון לנייד</label>
+          <input type="tel" id="PhoneNumber" class="glass-input" placeholder="050-0000000" pattern="[0-9]+"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="נא להזין מספרים בלבד" required>
+        </div>
+
+        <button type="submit" class="glass-btn">הירשם והתחל לחפש נכסים</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      themeToggleBtn.innerText = nextTheme === "light" ? "☀️" : "🌙";
+    });
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfbIOTvjCb5XLvo9D-FvtoqAPKVMOdVGY",
+      authDomain: "apartment-rental-5136c.firebaseapp.com",
+      projectId: "apartment-rental-5136c",
+      storageBucket: "apartment-rental-5136c.firebasestorage.app",
+      messagingSenderId: "779553223641",
+      appId: "1:779553223641:web:416a43ccfc689a21c15fc8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('userForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const errorAlert = document.getElementById("errorAlert");
+        if (errorAlert) {
+          errorAlert.style.display = "none";
+          errorAlert.textContent = "";
+        }
+
+        const FirstName = document.getElementById("FirstName").value.trim();
+        const LastName = document.getElementById("LastName").value.trim();
+        const Email = document.getElementById("Email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const PhoneNumber = document.getElementById("PhoneNumber").value.trim();
+
+        if (password.length < 6) {
+          const msg = "הסיסמה חייבת להכיל לפחות 6 תווים.";
+          if (errorAlert) {
+            errorAlert.textContent = msg;
+            errorAlert.style.display = "block";
+          }
+          alert(msg);
+          return;
+        }
+
+        try {
+
+          const q = query(collection(db, "guests"), where("Email", "==", Email));
+          const querySnapshot = await getDocs(q);
+
+          if (!querySnapshot.empty) {
+            const msg = 'כתובת הדוא"ל כבר רשומה במערכת נא להשתמש באימייל אחר.';
+            if (errorAlert) {
+              errorAlert.textContent = msg;
+              errorAlert.style.display = "block";
+            }
+            alert(msg);
+            return;
+          }
+
+          await addDoc(collection(db, "guests"), {
+            FirstName: FirstName,
+            LastName: LastName,
+            Email: Email,
+            password: password,
+            PhoneNumber: PhoneNumber
+          });
+
+          localStorage.setItem("firstName", FirstName);
+          localStorage.setItem("lastName", LastName);
+          localStorage.setItem("userEmail", Email);
+
+          alert("ההרשמה ל-LuxeEstate בוצעה בהצלחה!");
+          window.location.href = "Main.html";
+        } catch (error) {
+          console.error("Error during signup:", error);
+          const msg = "אירעה שגיאה בהרשמה. נא לנסות שוב מאוחר יותר.";
+          if (errorAlert) {
+            errorAlert.textContent = msg;
+            errorAlert.style.display = "block";
+          }
+          alert(msg);
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LuxeEstate | עריכת פרופיל משתמש</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="top-bar">
+    <a href="Main.html" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span>LuxeEstate</span>
+    </a>
+
+    <div class="welcome" id="welcomeText">
+      <span class="welcome-user-badge">ניהול פרופיל VIP</span>
+    </div>
+
+    <div class="top-left">
+      <a href="Main.html" class="nav-btn login-btn-outline">חזרה לדף הבית</a>
+      <button class="nav-btn logout-btn" onclick="logout()">יציאה</button>
+      <button class="theme-toggle-btn" id="themeToggle" title="החלף ערכת נושא">🌙</button>
+    </div>
+  </header>
+
+  <div class="center-screen-layout">
+    <div class="glass-form-container">
+      <h2>פרופיל המשתמש שלי 👤</h2>
+
+      <button class="glass-btn secondary" onclick="enableEdit()" style="margin-bottom: 25px;">✏️ לחץ לעריכת הפרטים האישיים</button>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-group">
+          <label class="glass-label">שם פרטי</label>
+          <input type="text" id="firstName" class="glass-input" disabled>
+        </div>
+
+        <div class="form-group">
+          <label class="glass-label">שם משפחה</label>
+          <input type="text" id="lastName" class="glass-input" disabled>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="glass-label">טלפון ליצירת קשר</label>
+        <input type="text" id="phone" class="glass-input" disabled>
+      </div>
+
+      <div class="form-group">
+        <label class="glass-label">כתובת מגורים</label>
+        <input type="text" id="address" class="glass-input" disabled>
+      </div>
+
+      <div class="form-group">
+        <label class="glass-label">כתובת דוא״ל</label>
+        <input type="email" id="email" class="glass-input" disabled>
+      </div>
+
+      <div class="form-group">
+        <label class="glass-label">סיסמה אישית</label>
+        <input type="password" id="newPassword" class="glass-input" placeholder="הכנס סיסמה חדשה" disabled>
+      </div>
+
+      <button onclick="saveProfile()" class="glass-btn">💾 שמור שינויים בפרופיל</button>
+
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const themeToggleBtn = document.getElementById("themeToggle");
+    themeToggleBtn.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const nextTheme = currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      themeToggleBtn.innerText = nextTheme === "light" ? "☀️" : "🌙";
+    });
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfbIOTvjCb5XLvo9D-FvtoqAPKVMOdVGY",
+      authDomain: "apartment-rental-5136c.firebaseapp.com",
+      projectId: "apartment-rental-5136c",
+      storageBucket: "apartment-rental-5136c.firebasestorage.app",
+      messagingSenderId: "779553223641",
+      appId: "1:779553223641:web:416a43ccfc689a21c15fc8"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    let userEmail = localStorage.getItem("userEmail") || "vip@luxeestate.co.il";
+    let storedFirstName = localStorage.getItem("firstName") || "משתמש";
+    let storedLastName = localStorage.getItem("lastName") || "VIP";
+
+    document.getElementById("firstName").value = storedFirstName;
+    document.getElementById("lastName").value = storedLastName;
+    document.getElementById("phone").value = "050-1234567";
+    document.getElementById("address").value = "תל אביב";
+    document.getElementById("email").value = userEmail;
+    document.getElementById("newPassword").value = "••••••••";
+
+    let userDocId = null;
+
+    db.collection("guests")
+      .where("Email", "==", userEmail)
+      .get()
+      .then(snapshot => {
+        if (!snapshot.empty) {
+          const doc = snapshot.docs[0];
+          userDocId = doc.id;
+          const data = doc.data();
+
+          document.getElementById("firstName").value = data.FirstName || storedFirstName;
+          document.getElementById("lastName").value = data.LastName || storedLastName;
+          document.getElementById("phone").value = data.phone || data.PhoneNumber || "050-1234567";
+          document.getElementById("address").value = data.address || "תל אביב";
+          document.getElementById("email").value = data.Email || userEmail;
+          document.getElementById("newPassword").value = data.password || "••••••••";
+        }
+      })
+      .catch(err => console.warn("Using fallback local storage data"));
+
+    function enableEdit() {
+      document.getElementById("firstName").disabled = false;
+      document.getElementById("lastName").disabled = false;
+      document.getElementById("phone").disabled = false;
+      document.getElementById("address").disabled = false;
+      document.getElementById("email").disabled = false;
+      document.getElementById("newPassword").disabled = false;
+    }
+
+    function saveProfile() {
+      const fn = document.getElementById("firstName").value;
+      const ln = document.getElementById("lastName").value;
+      const em = document.getElementById("email").value;
+
+      localStorage.setItem("firstName", fn);
+      localStorage.setItem("lastName", ln);
+      localStorage.setItem("userEmail", em);
+
+      if (userDocId) {
+        db.collection("guests").doc(userDocId).update({
+          FirstName: fn,
+          LastName: ln,
+          phone: document.getElementById("phone").value,
+          address: document.getElementById("address").value,
+          Email: em,
+          password: document.getElementById("newPassword").value
+        }).catch(e => console.warn(e));
+      }
+
+      alert("✅ הפרטים עודכנו בהצלחה!");
+      disableInputs();
+    }
+
+    function disableInputs() {
+      document.getElementById("firstName").disabled = true;
+      document.getElementById("lastName").disabled = true;
+      document.getElementById("phone").disabled = true;
+      document.getElementById("address").disabled = true;
+      document.getElementById("email").disabled = true;
+      document.getElementById("newPassword").disabled = true;
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "Main.html";
+    }
+  </script>
+
+</body>
+</html>
